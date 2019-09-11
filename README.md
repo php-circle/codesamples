@@ -11,5 +11,5 @@
 - Make sure to add tests
 - Create a PR after, this will be reviewed by any member of the group
 
-### Exercise 1: Adding Repository and Generating Migration File
+### Exercise 2: Adding Repository and Generating Migration File
 - Coming soon...
