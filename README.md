@@ -8,3 +8,4 @@
 
 ### Dev Notes
 - Follow how App\Database\Entities\User entity has been created.
+- Make sure to add tests
