@@ -1,39 +1,64 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\User;
-use Illuminate\Support\Facades\Gate;
+use App\Database\Entities\Users\ApiKey;
+use App\External\Interfaces\AuthInterface;
+use App\External\Libraries\Auth;
+use App\Services\Security\Interfaces\PermissionsCheckerInterface;
+use App\Services\Security\PermissionsChecker;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * The application instance.
      *
-     * @return void
+     * @var \Laravel\Lumen\Application
      */
-    public function register()
-    {
-        //
-    }
+    protected $app;
 
     /**
      * Boot the authentication services for the application.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        // Here you may define how you wish users to be authenticated for your Lumen
-        // application. The callback which receives the incoming request instance
-        // should return either a User instance or null. You're free to obtain
-        // the User instance via an API token or any other method necessary.
-
-        $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+        $this->app->make('auth')->viaRequest('api', function (Request $request) {
+            $apiKeyInRequest = $request->getUser();
+            if ($apiKeyInRequest === null) {
+                return null;
             }
+
+            return $this->app
+                ->make(EntityManagerInterface::class)
+//                ->getRepository(ApiKey::class)
+                ->findOneBy(['key' => $apiKeyInRequest]);
         });
+    }
+
+    /**
+     * Decorate auth service.
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function register(): void
+    {
+        $this->app->extend(AuthFactory::class, function ($auth) {
+            if ($auth instanceof AuthInterface) {
+                return $auth;
+            }
+
+            return new Auth($auth);
+        });
+
+        $this->app->alias('auth', AuthInterface::class);
     }
 }

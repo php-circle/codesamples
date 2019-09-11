@@ -64,7 +64,7 @@ $app->register(\LaravelDoctrine\Extensions\GedmoExtensionsServiceProvider::class
 $app->register(\LaravelDoctrine\Migrations\MigrationsServiceProvider::class);
 $app->register(\StepTheFkUp\EasyPsr7Factory\Bridge\Laravel\EasyPsr7FactoryServiceProvider::class);
 $app->register(\StepTheFkUp\EasyPagination\Bridge\Laravel\Providers\StartSizeInQueryEasyPaginationProvider::class);
-//$app->register(\StepTheFkUp\EasyRepository\Bridge\Laravel\EasyRepositoryProvider::class);
+$app->register(\StepTheFkUp\EasyRepository\Bridge\Laravel\EasyRepositoryProvider::class);
 $app->register(\EoneoPay\Externals\Bridge\Laravel\Providers\ContainerServiceProvider::class);
 $app->register(\EoneoPay\Externals\Bridge\Laravel\Providers\FilesystemServiceProvider::class);
 $app->register(\EoneoPay\Externals\Bridge\Laravel\Providers\HttpClientServiceProvider::class);

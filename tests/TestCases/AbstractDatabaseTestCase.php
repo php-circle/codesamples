@@ -1,17 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\TestCases;
+namespace Tests\App\TestCases;
 
 use App\Database\Entities\AbstractEntity;
-use App\Database\Entities\User;
-use App\Tests\AbstractTestCase;
-use App\Tests\Tools\EntityFactory\Factory as EntityFactory;
-use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Externals\Bridge\Laravel\EventDispatcher;
-use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
-use LaravelDoctrine\ORM\Testing\Factory as LaravelDoctrineFactory;
-use LoyaltyCorp\EasyRepository\Interfaces\ObjectRepositoryInterface;
+use Doctrine\ORM\Tools\SchemaTool;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
+use Tests\App\AbstractTestCase;
 
 /**
  * @coversNothing
@@ -22,116 +17,110 @@ use LoyaltyCorp\EasyRepository\Interfaces\ObjectRepositoryInterface;
 abstract class AbstractDatabaseTestCase extends AbstractTestCase
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var string
+     */
+    private static $sql;
+
+    /**
+     * @var string
+     */
+    private static $truncateSql;
+
+    /**
+     * @var \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface
      */
     private $entityManager;
-
-    /** @var \App\Repositories\Doctrine\ORM\AbstractRepository */
-    private $repository;
-
-    /**
-     * Assert response to be paginated.
-     *
-     * @param int $itemsCount
-     *
-     * @return void
-     */
-    public function assertPaginatedResponse(int $itemsCount): void
-    {
-        $response = $this->getResponseAsArray();
-
-        $this->assertArrayHasKeys(['items', 'pagination'], $response);
-        self::assertCount($itemsCount, $response['items']);
-    }
-
-    /**
-     * Register an existing instance of the EventDispatcherInterface.
-     *
-     * @param  mixed[]|string $events
-     *
-     * @return \App\Tests\TestCases\AbstractDatabaseTestCase
-     */
-    public function expectsEvents($events): AbstractDatabaseTestCase
-    {
-        parent::expectsEvents($events);
-
-        $this->app->instance(EventDispatcherInterface::class, new EventDispatcher($this->app->get('events')));
-
-        return $this;
-    }
 
     /**
      * Create database using doctrine command.
      *
      * @return void
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->getConsole()->call('doctrine:migrations:migrate');
+//        $this->app->singleton(LaravelDoctrineFactory::class, function () {
+//            return EntityFactory::construct(
+//                $this->getFaker(),
+//                $this->app->make('registry')
+//            );
+//        });
 
-        $this->app->singleton(LaravelDoctrineFactory::class, function () {
-            return EntityFactory::construct(
-                $this->getFaker(),
-                $this->app->make('registry')
-            );
-        });
+        // phpunit.xml sets env to `testing`
+        if (\getenv('DB_CONNECTION') !== 'testing') {
+            $this->getConsole()->call('doctrine:migrations:migrate');
+
+            return;
+        }
+
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $this->entityManager = $entityManager = $this->app->make('registry')->getManager();
+
+        // If schema hasn't been defined, define it, this will happen once per run
+        if (self::$sql === null) {
+            $tool = new SchemaTool($entityManager);
+            $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
+            self::$sql = \implode(';', $tool->getCreateSchemaSql($metadata));
+        }
+
+        // Create schema
+        $entityManager->getConnection()->exec(self::$sql);
+
+        // Define truncate query after schema created to have the tables
+        if (self::$truncateSql === null) {
+            $platform = $entityManager->getConnection()->getDatabasePlatform();
+            $truncate = '';
+
+            foreach ($entityManager->getConnection()->getSchemaManager()->listTables() as $table) {
+                $truncate .= \sprintf('%s;', $platform->getTruncateTableSQL($table->getName()));
+            }
+
+            self::$truncateSql = $truncate;
+        }
     }
 
     /**
      * Reset database using doctrine command and close the connection.
      *
      * @return void
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function tearDown(): void
     {
-        $this->getConsole()->call('doctrine:migrations:reset');
+        $this->entityManager->getConnection()->exec(self::$truncateSql);
 
-        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
-        $entityManager = $this->app->get('registry')->getManager();
-        $entityManager->getConnection()->close();
+        // phpunit.xml sets env to `testing`
+        if (\getenv('DB_CONNECTION') !== 'testing') {
+            $this->getConsole()->call('doctrine:migrations:reset');
+
+            $this->entityManager->getConnection()->close();
+        }
 
         parent::tearDown();
     }
 
     /**
-     * Should retrieve the catalogue.
+     * Test validation failure on an entity
      *
-     * @param string $method
-     * @param string $uri
-     * @param null|mixed[] $body
-     * @param null|mixed[] $header
-     * @param \App\Database\Entities\User|null $user
+     * @param string $entityClass The entity class to test
+     * @param string $exceptionClass The expected exception class
      *
      * @return void
      */
-    protected function adminJson(
-        string $method,
-        string $uri,
-        ?array $body = null,
-        ?array $header = null,
-        ?User $user = null
-    ): void {
-        $user = $user ?? \entity(User::class)->create();
-
-        $this->json(
-            $method,
-            $uri,
-            $body ?? [],
-            \array_merge(
-                $header ?? [],
-                [
-                    'Authorization' => \sprintf('Basic %s', \base64_encode($user->getApiKey() . ':'))
-                ]
-            )
-        );
+    protected function assertValidationFailedException(string $entityClass, string $exceptionClass): void
+    {
+        $this->expectException($exceptionClass);
+        $this->getEntityManager()->persist(new $entityClass());
     }
 
     /**
      * Get entity manager instance
      *
-     * @return \Doctrine\ORM\EntityManagerInterface
+     * @return \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface
      */
     protected function getEntityManager(): EntityManagerInterface
     {
@@ -139,33 +128,33 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
             return $this->entityManager;
         }
 
-        return $this->entityManager = $this->app->make('registry')->getManager();
+        return $this->entityManager = $this->app->make(EntityManagerInterface::class);
     }
 
     /**
-     * Get repository.
+     * Send Json request to uri with api key header.
      *
-     * @param string $repository
+     * @param string $method
+     * @param string $uri
+     * @param string $key
+     * @param mixed[]|null $data
+     * @param string[]|null $headers
      *
-     * @return \LoyaltyCorp\EasyRepository\Interfaces\ObjectRepositoryInterface
+     * @return void
      */
-    protected function getRepository(string $repository): ObjectRepositoryInterface
-    {
-        if ($this->repository instanceof $repository) {
-            return $this->repository;
-        }
+    protected function jsonWithApiKey(
+        string $method,
+        string $uri,
+        string $key,
+        ?array $data = null,
+        ?array $headers = null
+    ): void {
+        $headers = \array_merge(
+            ['Authorization' => \sprintf('Basic %s', \base64_encode($key . ':'))],
+            $headers ?? []
+        );
 
-        return $this->repository = \app($repository);
-    }
-
-    /**
-     * Get the http response content as array.
-     *
-     * @return mixed[]
-     */
-    protected function getResponseAsArray(): array
-    {
-        return \json_decode($this->response->getContent(), true);
+        $this->json($method, $uri, $data ?? [], $headers);
     }
 
     /**
