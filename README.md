@@ -1,6 +1,5 @@
 ## Exercise 1: Creating Simple Entity
 
-### Create Account Entity
 ### Acceptance Criteria
 - Schema
     - accountNumber - required|string
