@@ -15,20 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 trait AccountSchema
 {
     /**
-     * @ORM\Column(type="string", name="account_number")
-     *
-     * @var string
-     */
-    protected $accountNumber;
-
-    /**
-     * @ORM\Column(type="string", name="subscription_type", columnDefinition="ENUM('in:monthly', 'lifetime')")
-     *
-     * @var string
-     */
-    protected $subscriptionType;
-
-    /**
      * @ORM\Column(type="guid", name="id")
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Id()
@@ -36,4 +22,18 @@ trait AccountSchema
      * @var string
      */
     protected $accountId;
+
+    /**
+     * @ORM\Column(type="string", name="account_number")
+     *
+     * @var string
+     */
+    protected $accountNumber;
+
+    /**
+     * @ORM\Column(type="string", name="subscription_type")
+     *
+     * @var string
+     */
+    protected $subscriptionType;
 }

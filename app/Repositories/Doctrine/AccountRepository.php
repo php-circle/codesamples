@@ -20,10 +20,12 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
     public function findBySubscriptionType(string $subscriptionType): array
     {
         try {
-            if ($subscriptionType !== 'monthly' && $subscriptionType !== 'lifetime') {
+            if ($subscriptionType !== Account::SUBSCRIPTION_TYPE_MONTHLY
+                && $subscriptionType !== Account::SUBSCRIPTION_TYPE_LIFETIME
+            ) {
                 throw new InvalidTypeSubscriptionException();
             }
-            
+
             return $this->repository->findBy(['subscriptionType' => $subscriptionType]);
         } catch (InvalidTypeSubscriptionException $ex) {
             return ['error' => $ex->getErrorCode()];

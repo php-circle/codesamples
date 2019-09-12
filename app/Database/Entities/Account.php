@@ -14,18 +14,32 @@ class Account extends AbstractEntity
     use AccountSchema;
 
     /**
-     * Get array representation of children.
+     * Constant variable for monthly.
      *
-     * @return mixed[]
+     * @const string
      */
-    protected function doToArray(): array
-    {
-        return [
-            'id' => $this->getAccountId(),
-            'account_number' => $this->getAccountNumber(),
-            'subscription_type' => $this->getSubscriptionType()
-        ];
-    }
+    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
+
+    /**
+     * Constant variable for lifetime.
+     *
+     * @const string
+     */
+    public const SUBSCRIPTION_TYPE_LIFETIME = 'lifetime';
+
+    /**
+     * Constant variable for acount number rule.
+     *
+     * @const string
+     */
+    public const ACCOUNT_NUMBER_RULE = 'required|string';
+
+    /**
+     * Constant variable for subscription type rule.
+     *
+     * @const string
+     */
+    public const SUBSCRIPTION_TYPE_RULE = 'required|in:monthly,lifetime';
 
     /**
      * Get entity specific validation rules as an array.
@@ -35,8 +49,22 @@ class Account extends AbstractEntity
     protected function doGetRules(): array
     {
         return [
-            'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:monthly,lifetime'
+            'accountNumber' => self::ACCOUNT_NUMBER_RULE,
+            'subscriptionType' => self::SUBSCRIPTION_TYPE_RULE
+        ];
+    }
+
+    /**
+     * Get array representation of children.
+     *
+     * @return mixed[]
+     */
+    protected function doToArray(): array
+    {
+        return [
+            'account_number' => $this->getAccountNumber(),
+            'id' => $this->getAccountId(),
+            'subscription_type' => $this->getSubscriptionType()
         ];
     }
 
