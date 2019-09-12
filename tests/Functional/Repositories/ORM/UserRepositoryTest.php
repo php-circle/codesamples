@@ -29,11 +29,11 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
         self::assertEquals(User::class, $method->invoke($repository));
     }
 
-    /**
-     * @return void
-     */
-    public function testFindByFirstName(): void
-    {
-
-    }
+    // /**
+    //  * @return void
+    //  */
+    // public function testFindByFirstName(): void
+    // {
+        
+    // }
 }
