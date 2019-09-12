@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\TestCases;
+namespace Tests\App\Tools\TestCases;
 
 abstract class AbstractEntityTestCase extends AbstractDoctrineAnnotationsTestCase
 {

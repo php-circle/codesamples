@@ -25,6 +25,6 @@
 
     </php>
     <listeners>
-        <listener class="App\Tests\Tools\TestListeners\ValidationErrorsListener" file="tests/Tools/TestListeners/ValidationErrorsListener.php"/>
+        <listener class="Tests\App\Tools\TestListeners\ValidationErrorsListener" file="tests/Tools/TestListeners/ValidationErrorsListener.php"/>
     </listeners>
 </phpunit>

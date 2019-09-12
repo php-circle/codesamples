@@ -5,5 +5,12 @@ namespace App\Repositories\Interfaces;
 
 interface UserRepositoryInterface extends AppRepositoryInterface
 {
-    // No body needed for now.
+    /**
+     * Find by first name.
+     *
+     * @param string $firstName
+     *
+     * @return mixed[]
+     */
+    public function findByFirstName(string $firstName): array;
 }

@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Database\Entities\Users\ApiKey;
 use App\External\Interfaces\AuthInterface;
 use App\External\Libraries\Auth;
-use App\Services\Security\Interfaces\PermissionsCheckerInterface;
-use App\Services\Security\PermissionsChecker;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;

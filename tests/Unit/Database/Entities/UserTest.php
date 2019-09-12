@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\Unit\Database\Entities;
 
 use App\Database\Entities\User;
-use Tests\App\TestCases\DoctrineAnnotationsTestCase;
+use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 
 /**
  * @covers \App\Database\Entities\User

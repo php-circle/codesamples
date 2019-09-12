@@ -71,7 +71,8 @@
     "ecs": "vendor/bin/ecs check app tests",
     "phpstan": "vendor/bin/phpstan analyse app tests --level=7 --ansi",
     "paratest": "vendor/bin/paratest -p20",
-    "security-check": "vendor/bin/security-checker security:check"
+    "security-check": "vendor/bin/security-checker security:check",
+    "coverage" : "phpdbg -qrr vendor/bin/phpunit --colors=always --coverage-html ./coverage"
   },
   "config": {
     "preferred-install": "dist",

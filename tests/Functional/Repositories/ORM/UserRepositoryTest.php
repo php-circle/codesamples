@@ -6,8 +6,11 @@ namespace Tests\App\Functional\Repositories\ORM;
 use App\Database\Entities\User;
 use App\Repositories\Doctrine\UserRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Tests\App\TestCases\AbstractDatabaseTestCase;
+use Tests\App\Tools\TestCases\AbstractDatabaseTestCase;
 
+/**
+ * @covers \App\Repositories\Doctrine\UserRepository
+ */
 final class UserRepositoryTest extends AbstractDatabaseTestCase
 {
     /**
@@ -24,5 +27,13 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
         $method = $this->getMethodAsPublic(UserRepository::class, 'getEntityClass');
 
         self::assertEquals(User::class, $method->invoke($repository));
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindByFirstName(): void
+    {
+
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\TestCases;
+namespace Tests\App\Tools\TestCases;
 
 use Closure;
 use Doctrine\Common\Persistence\ManagerRegistry;
