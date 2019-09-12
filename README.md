@@ -27,6 +27,6 @@ if subscription type does not belong to either ``monthly / lifetime``
 - To complete the exercise, standard checks should pass by running
     - composer ecs // Will run EasyCodingStandards 
     - composer phpstan // Will run PHPStandards
-    - ./vendor/bin/phpunit or ./vendor/bin/paratest -p // Will run your tests
+    - ./vendor/bin/phpunit or ./vendor/bin/paratest -p8 // Will run your tests
 
 
