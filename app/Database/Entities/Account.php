@@ -14,11 +14,11 @@ class Account extends AbstractEntity
     use AccountSchema;
 
     /**
-     * Constant variable for monthly.
+     * Constant variable for account number rule.
      *
      * @const string
      */
-    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
+    public const ACCOUNT_NUMBER_RULE = 'required|string';
 
     /**
      * Constant variable for lifetime.
@@ -28,11 +28,11 @@ class Account extends AbstractEntity
     public const SUBSCRIPTION_TYPE_LIFETIME = 'lifetime';
 
     /**
-     * Constant variable for acount number rule.
+     * Constant variable for monthly.
      *
      * @const string
      */
-    public const ACCOUNT_NUMBER_RULE = 'required|string';
+    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
 
     /**
      * Constant variable for subscription type rule.
