@@ -13,7 +13,7 @@ use Tests\App\Tools\TestCases\AbstractDatabaseTestCase;
 final class AccountRepositoryTest extends AbstractDatabaseTestCase
 {
     /**
-     * Test findBySubscriptionType method which is passed by a paramater value not equal to lifetime and monthly that throws an error.
+     * Test findBySubscriptionType method which is passed by a paramater value not equal to lifetime and monthly.
      *
      * @return void
      */
