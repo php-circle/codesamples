@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\TestCases;
+namespace Tests\App\Tools\TestCases;
 
-use App\Tests\AbstractTestCase;
+use Tests\App\AbstractTestCase;
 
 /**
  * @coversNothing
@@ -22,8 +22,8 @@ abstract class AbstractDoctrineAnnotationsTestCase extends AbstractTestCase
         parent::setUp();
 
         // Require Doctrine annotations
-        require_once __DIR__ . '/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php';
+        require_once __DIR__ . '/../../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php';
         // Require Gedmo annotations
-        require_once __DIR__ . '/../../vendor/gedmo/doctrine-extensions/lib/Gedmo/Mapping/Annotation/All.php';
+        require_once __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib/Gedmo/Mapping/Annotation/All.php';
     }
 }

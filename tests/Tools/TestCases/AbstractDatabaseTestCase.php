@@ -1,17 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\TestCases;
+namespace Tests\App\Tools\TestCases;
 
 use App\Database\Entities\AbstractEntity;
 use App\Database\Entities\User;
-use App\Tests\AbstractTestCase;
-use App\Tests\Tools\EntityFactory\Factory as EntityFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\Bridge\Laravel\EventDispatcher;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
-use LaravelDoctrine\ORM\Testing\Factory as LaravelDoctrineFactory;
 use LoyaltyCorp\EasyRepository\Interfaces\ObjectRepositoryInterface;
+use Tests\App\AbstractTestCase;
 
 /**
  * @coversNothing
@@ -49,7 +47,7 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
      *
      * @param  mixed[]|string $events
      *
-     * @return \App\Tests\TestCases\AbstractDatabaseTestCase
+     * @return \Tests\App\Tools\TestCases\AbstractDatabaseTestCase
      */
     public function expectsEvents($events): AbstractDatabaseTestCase
     {
@@ -68,15 +66,6 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->getConsole()->call('doctrine:migrations:migrate');
-
-        $this->app->singleton(LaravelDoctrineFactory::class, function () {
-            return EntityFactory::construct(
-                $this->getFaker(),
-                $this->app->make('registry')
-            );
-        });
     }
 
     /**
@@ -86,8 +75,6 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
      */
     public function tearDown(): void
     {
-        $this->getConsole()->call('doctrine:migrations:reset');
-
         /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
         $entityManager = $this->app->get('registry')->getManager();
         $entityManager->getConnection()->close();
