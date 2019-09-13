@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -10,7 +9,11 @@ class EventServiceProvider extends ServiceProvider
     /**
      * The event listener mappings for the application.
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $listen = [];
+    protected $listen = [
+        'App\Events\ExampleEvent' => [
+            'App\Listeners\ExampleListener',
+        ],
+    ];
 }

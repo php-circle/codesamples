@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Repositories\Doctrine\ORM\UserRepository;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 
 return [
@@ -22,6 +22,7 @@ return [
     |
     */
     'repositories' => [
-        UserRepositoryInterface::class => UserRepository::class
+        UserRepositoryInterface::class => \App\Repositories\Doctrine\UserRepository::class,
+        AccountRepositoryInterface::class => \App\Repositories\Doctrine\AccountRepository::class,
     ]
 ];

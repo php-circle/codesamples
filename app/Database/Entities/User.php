@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Database\Entities;
 
 use App\Database\Schema\UserSchema;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**

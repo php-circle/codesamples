@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\Tools\EntityFactory;
+namespace App\Tests\Tools\EntityFactory;
 
 use Illuminate\Support\Collection;
 use LaravelDoctrine\ORM\Testing\FactoryBuilder as DoctrineFactoryBuilder;
