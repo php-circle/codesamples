@@ -12,6 +12,18 @@ use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 final class AccountTest extends DoctrineAnnotationsTestCase
 {
     /**
+     * Test assert id property.
+     *
+     * @return void
+     *
+     * @throws \ReflectionException
+     */
+    public function testAssertIdProperty(): void
+    {
+        $this->assertIdProperty(Account::class, 'accountId');
+    }
+
+    /**
      ** Test entity do get rules.
      *
      * @return void
@@ -40,17 +52,5 @@ final class AccountTest extends DoctrineAnnotationsTestCase
             'id',
             'subscription_type'
         ]);
-    }
-
-    /**
-     * Test assert id property.
-     *
-     * @return void
-     *
-     * @throws \ReflectionException
-     */
-    public function testAssertIdProperty(): void
-    {
-        $this->assertIdProperty(Account::class, 'accountId');
     }
 }

@@ -14,14 +14,27 @@ class Account extends AbstractEntity
     use AccountSchema;
 
     /** string  */
-    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
     public const SUBSCRIPTION_TYPE_LIFETIME = 'lifetime';
+    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
 
     /** string[] */
     public const SUBSCRIPTION_TYPE =[
-        self::SUBSCRIPTION_TYPE_MONTHLY,
-        self::SUBSCRIPTION_TYPE_LIFETIME
+        self::SUBSCRIPTION_TYPE_LIFETIME,
+        self::SUBSCRIPTION_TYPE_MONTHLY
     ];
+
+    /**
+     * Get entity specific validation rules as an array.
+     *
+     * @return mixed[]
+     */
+    protected function doGetRules(): array
+    {
+        return [
+            'accountNumber' => 'required|string',
+            'subscriptionType' => 'required|in:' . \implode(',', self::SUBSCRIPTION_TYPE)
+        ];
+    }
 
     /**
      * Get array representation of children.
@@ -34,19 +47,6 @@ class Account extends AbstractEntity
             'account_number' => $this->getAccountNumber(),
             'id' => $this->getAccountId(),
             'subscription_type' => $this->getSubscriptionType()
-        ];
-    }
-
-    /**
-     * Get entity specific validation rules as an array.
-     *
-     * @return mixed[]
-     */
-    protected function doGetRules(): array
-    {
-        return [
-            'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:' . \implode(',', self::SUBSCRIPTION_TYPE)
         ];
     }
 
