@@ -22,7 +22,7 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
      */
     public function testEntityClass(): void
     {
-        $repository = $this->app->get(UserRepositoryInterface::class);
+        $repository = $this->app->get(UserRepository::class);
 
         $method = $this->getMethodAsPublic(UserRepository::class, 'getEntityClass');
 
@@ -38,20 +38,6 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
      */
     public function testFindByFirstName(): void
     {
-        $user = new User([
-            'email' => 'johndoe@yopmail.com',
-            'firstName' => 'John',
-            'lastName' => 'Doe'
-        ]);
-
-        $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush();
-
-        $repository  = $this->app->get(UserRepositoryInterface::class);
-
-        $result = $repository->findByFirstName('John');
-
-        self::assertCount(1, $result);
-        self::assertContains($user, $result);
+        
     }
 }
