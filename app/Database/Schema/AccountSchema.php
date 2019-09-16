@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @method null|string getAccountNumber()
  * @method null|string getAccountId()
  * @method null|string getSubscriptionType()
+ * @method null|string getUser()
  * @method self setSubscriptionType(string $subscriptionType)
  * @method self setAccountNumber(string $accountNumber)
+ * @method self setUser(string $userId)
  */
 trait AccountSchema
 {
@@ -36,4 +38,13 @@ trait AccountSchema
      * @var string
      */
     protected $subscriptionType;
+
+    /**
+     * @ORM\Column(type="guid", name="id")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Id()
+     *
+     * @var string
+     */
+    protected $userId;
 }

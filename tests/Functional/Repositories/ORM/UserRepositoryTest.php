@@ -30,11 +30,36 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Test to search by first name
+     * Test to search by first name.
      *
      * @return void
      */
     public function testFindByFirstName(): void
     {
+    }
+
+    /**
+     * Test to set user.
+     *
+     * @throws \Exception
+     */
+    public function testSetUser(): void
+    {
+        $repository = $this->app->get(UserRepositoryInterface::class);
+
+        $user = new User([
+            'email' => 'johndoe@gmail.com',
+            'firstName' => 'John',
+            'lastName' => 'Doe'
+        ]);
+
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        $users = $repository->findByFirstName('John');
+        self::assertContains($user, $users);
+
+
+
     }
 }

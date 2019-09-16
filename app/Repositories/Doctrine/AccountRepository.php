@@ -16,18 +16,16 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
      * @param string $subscriptionType
      *
      * @return mixed[]
+     *
+     * @throws InvalidSubscriptionTypeException
      */
     public function findBySubscriptionType(string $subscriptionType): array
     {
-        try {
-            if (($subscriptionType !== Account::SUBSCRIPTION_TYPE_MONTHLY) and
-                ($subscriptionType !== Account::SUBSCRIPTION_TYPE_LIFETIME)) {
-                throw new InvalidSubscriptionTypeException();
-            }
-            return $this->repository->findBy(['subscriptionType' => $subscriptionType]);
-        } catch (InvalidSubscriptionTypeException $ex) {
-            return ['error' => $ex->getErrorCode()];
+        if (\in_array($subscriptionType, Account::SUBSCRIPTION_TYPES) === false) {
+            throw new InvalidSubscriptionTypeException();
         }
+
+        return $this->repository->findBy(['subscriptionType' => $subscriptionType]);
     }
 
     /**

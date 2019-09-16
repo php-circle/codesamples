@@ -13,15 +13,29 @@ class Account extends AbstractEntity
 {
     use AccountSchema;
 
-    /** string  */
+    /** @var string */
     public const SUBSCRIPTION_TYPE_LIFETIME = 'lifetime';
+
+    /** @var string */
     public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
 
     /** string[] */
-    public const SUBSCRIPTION_TYPE =[
+    public const SUBSCRIPTION_TYPES = [
         self::SUBSCRIPTION_TYPE_LIFETIME,
         self::SUBSCRIPTION_TYPE_MONTHLY
     ];
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="\App\Database\Entities\User",
+     *     mappedBy="accounts",
+     *     cascade={"persist"}
+     * )
+     *
+     * @var \App\Database\Entities\User
+     */
+    protected $user;
+
 
     /**
      * Get entity specific validation rules as an array.
@@ -32,7 +46,8 @@ class Account extends AbstractEntity
     {
         return [
             'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:' . \implode(',', self::SUBSCRIPTION_TYPE)
+            'subscriptionType' => 'required|in:' . \implode(',', self::SUBSCRIPTION_TYPES),
+            'user' => 'required|' . $this->instanceOfRuleAsString(User::class)
         ];
     }
 
@@ -46,8 +61,28 @@ class Account extends AbstractEntity
         return [
             'account_number' => $this->getAccountNumber(),
             'id' => $this->getAccountId(),
-            'subscription_type' => $this->getSubscriptionType()
+            'subscription_type' => $this->getSubscriptionType(),
+            'user' => $this->getUser()
         ];
+    }
+
+
+    /**
+     * Set user association.
+     *
+     * @param User $user
+     *
+     * @return \App\Database\Entities\Account
+     */
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        if ($user->getUserId() !== null) {
+            $this->userId = $user->getUserId();
+        }
+
+        return $this;
     }
 
     /**

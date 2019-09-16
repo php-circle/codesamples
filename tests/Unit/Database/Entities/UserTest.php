@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\Unit\Database\Entities;
 
 use App\Database\Entities\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 
 /**
@@ -43,6 +44,7 @@ final class UserTest extends DoctrineAnnotationsTestCase
             'id',
             'first_name',
             'last_name'
+
         ]);
     }
 
