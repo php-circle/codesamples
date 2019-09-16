@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Database\Schema;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method bool isActive()
+ * @method null|\App\Database\Schema\Account[] getAccounts()
  * @method null|string getEmail()
  * @method null|string getFirstName()
  * @method null|string getLastName()
@@ -18,6 +20,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 trait UserSchema
 {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->accounts = new ArrayCollection();
+    }
+
     /**
      * @ORM\Column(type="boolean", name="active")
      *
@@ -54,4 +64,11 @@ trait UserSchema
      * @var string
      */
     protected $userId;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Account", mappedBy="user")
+     * 
+     * @var \App\Database\Schema\Accounts[]
+     */
+    protected $accounts;
 }

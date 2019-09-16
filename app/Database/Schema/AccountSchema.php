@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @method null|string getAccountId()
  * @method null|string getAccountNumber()
  * @method null|string getSubscriptionType()
+ * @method null|string getUser()
  * @method self setAccountNumber(string $accountNumber)
  * @method self setSubscriptionType(string $subscriptionType)
+ * @method self setUser(\App\Database\Schema\User $user)
  */
 trait AccountSchema
 {
@@ -36,4 +38,12 @@ trait AccountSchema
      * @var string
      */
     protected $subscriptionType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="account")
+     * @ORM\JoinColumn(nullable=false)
+     * 
+     * @var \App\Database\Schema\User
+     */
+    protected $user;
 }

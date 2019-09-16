@@ -21,25 +21,28 @@ class Account extends AbstractEntity
     public const ACCOUNT_NUMBER_RULE = 'required|string';
 
     /**
-     * Constant variable for lifetime.
-     *
-     * @const string
-     */
-    public const SUBSCRIPTION_TYPE_LIFETIME = 'lifetime';
-
-    /**
-     * Constant variable for monthly.
-     *
-     * @const string
-     */
-    public const SUBSCRIPTION_TYPE_MONTHLY = 'monthly';
-
-    /**
      * Constant variable for subscription type rule.
      *
      * @const string
      */
     public const SUBSCRIPTION_TYPE_RULE = 'required|in:monthly,lifetime';
+
+    /**
+     * Constant variable for subscription types.
+     *
+     * @const array
+     */
+    public const SUBSCRIPTION_TYPES = [
+        'lifetime',
+        'monthly'
+    ];
+
+    /**
+     * Constant variable for user rule.
+     *
+     * @const string
+     */
+    public const USER_RULE = 'required';
 
     /**
      * Get entity specific validation rules as an array.
@@ -49,8 +52,9 @@ class Account extends AbstractEntity
     protected function doGetRules(): array
     {
         return [
-            'accountNumber' => self::ACCOUNT_NUMBER_RULE,
-            'subscriptionType' => self::SUBSCRIPTION_TYPE_RULE
+            'accountNumber' => 'required|string',
+            'subscriptionType' => 'required|in:monthly,lifetime',
+            'user' => 'required|' . $this->instanceOfRuleAsString(User::class)
         ];
     }
 
@@ -64,7 +68,8 @@ class Account extends AbstractEntity
         return [
             'account_number' => $this->getAccountNumber(),
             'id' => $this->getAccountId(),
-            'subscription_type' => $this->getSubscriptionType()
+            'subscription_type' => $this->getSubscriptionType(),
+            'user' => $this->getUser()
         ];
     }
 

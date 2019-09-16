@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\Unit\Database\Entities;
 
 use App\Database\Entities\Account;
+use App\Database\Entities\User;
 use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 
 /**
@@ -22,7 +23,8 @@ final class AccountTest extends DoctrineAnnotationsTestCase
     {
         $this->assertDoGetRules(Account::class, [
             'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:monthly,lifetime'
+            'subscriptionType' => 'required|in:monthly,lifetime',
+            'user' => 'required|instance_of:' . User::class
         ]);
     }
 
@@ -38,7 +40,8 @@ final class AccountTest extends DoctrineAnnotationsTestCase
         $this->assertDoToArray(Account::class, [
             'id',
             'account_number',
-            'subscription_type'
+            'subscription_type',
+            'user'
         ]);
     }
 
@@ -52,5 +55,27 @@ final class AccountTest extends DoctrineAnnotationsTestCase
     public function testAssertIdProperty(): void
     {
         $this->assertIdProperty(Account::class, 'accountId');
+    }
+
+    /**
+     * Test the rules validation format.
+     *
+     * @return void
+     *
+     * @throws \ReflectionException
+     */
+    public function testGetRules(): void
+    {
+        $entity = $this->app->get(Account::class);
+        $doGetRules = $this->getMethodAsPublic(Account::class, 'doGetRules');
+        $userRules = $doGetRules->invoke($entity, new Account());
+        self::assertEquals(
+            [
+                'accountNumber' => 'required|string',
+                'subscriptionType' => 'required|in:monthly,lifetime',
+                'user' => 'required|instance_of:' . User::class
+            ],
+            $userRules
+        );
     }
 }
