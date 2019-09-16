@@ -66,11 +66,10 @@ class Account extends AbstractEntity
         ];
     }
 
-
     /**
      * Set user association.
      *
-     * @param User $user
+     * @param \App\Database\Entities\User $user
      *
      * @return \App\Database\Entities\Account
      */

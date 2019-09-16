@@ -6,7 +6,6 @@ namespace Tests\App\Unit\Database\Entities;
 use App\Database\Entities\Account;
 use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 
-
 /**
  * @covers \App\Database\Entities\Account
  */
@@ -56,5 +55,4 @@ final class AccountTest extends DoctrineAnnotationsTestCase
             'user'
         ]);
     }
-
 }

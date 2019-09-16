@@ -41,6 +41,8 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
     /**
      * Test to set user.
      *
+     * @return void
+     *
      * @throws \Exception
      */
     public function testSetUser(): void
@@ -58,8 +60,5 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
 
         $users = $repository->findByFirstName('John');
         self::assertContains($user, $users);
-
-
-
     }
 }

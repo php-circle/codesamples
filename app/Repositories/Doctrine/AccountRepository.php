@@ -17,7 +17,7 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
      *
      * @return mixed[]
      *
-     * @throws InvalidSubscriptionTypeException
+     * @throws \App\Database\Exceptions\InvalidSubscriptionTypeException
      */
     public function findBySubscriptionType(string $subscriptionType): array
     {
