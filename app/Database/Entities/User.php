@@ -13,16 +13,18 @@ class User extends AbstractEntity
 {
     use UserSchema;
 
+
     /**
-     * @ORM\ManyToOne(
+     * @ORM\OneToMany(
      *     targetEntity="\App\Database\Entities",
-     *     inversedBy="user",
+     *     mappedBy="user",
      *     cascade={"persist"}
      * )
      *
      * @var \Doctrine\Common\Collections\Collection
      */
     protected $accounts;
+
 
     /**
      * Get array representation of children.

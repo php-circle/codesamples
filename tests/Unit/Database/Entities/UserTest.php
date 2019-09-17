@@ -43,7 +43,6 @@ final class UserTest extends DoctrineAnnotationsTestCase
             'id',
             'first_name',
             'last_name'
-
         ]);
     }
 

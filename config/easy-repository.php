@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
+use App\Repositories\Doctrine\AccountRepository;
+use App\Repositories\Doctrine\UserRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+
 
 return [
     /*
@@ -22,7 +25,8 @@ return [
     |
     */
     'repositories' => [
-        UserRepositoryInterface::class => \App\Repositories\Doctrine\UserRepository::class,
-        AccountRepositoryInterface::class => \App\Repositories\Doctrine\AccountRepository::class
+        UserRepositoryInterface::class => UserRepository::class,
+        AccountRepositoryInterface::class => AccountRepository::class,
+
     ]
 ];

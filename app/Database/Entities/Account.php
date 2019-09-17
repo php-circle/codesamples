@@ -26,9 +26,9 @@ class Account extends AbstractEntity
     ];
 
     /**
-     * @ORM\OneToMany(
+     * @ORM\ManyToOne(
      *     targetEntity="\App\Database\Entities\User",
-     *     mappedBy="accounts",
+     *     inversedBy="accounts",
      *     cascade={"persist"}
      * )
      *
