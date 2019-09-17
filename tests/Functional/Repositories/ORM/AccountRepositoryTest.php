@@ -28,18 +28,19 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
         $userAccount = new UserAccount([
             "accountNumber" => "099-99",
             "subscriptionType" => UserAccount::SUBSCRIPTION_TYPE_MONTHLY,
+            "user" => new User([
+                "active" => true,
+                "email" => "sample@info.com",
+                "lastName" => "Angelo",
+                "firstName" => "Michael"
+            ])
         ]);
 
-        $user = new User([
-            "active" => true,
-            "email" => "sample@info.com",
-            "lastName" => "Angelo",
-            "firstName" => "Michael"
-        ]);
-
-        $userAccount->setUser( $user );
+        $this->getEntityManager()->persist( $userAccount );
+        $this->getEntityManager()->flush();
 
         $accounts = $repository->findBySubscriptionType( 'monthly' );
+
         self::assertContains($userAccount, $accounts);
     }
 

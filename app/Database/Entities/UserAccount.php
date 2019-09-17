@@ -29,7 +29,7 @@ class UserAccount extends AbstractEntity
      *     cascade={"persist"}
      * )
      *
-     * @var \App\Database\Entities\User
+     * @var User
      */
     protected $user;
 
@@ -54,6 +54,7 @@ class UserAccount extends AbstractEntity
      */
     protected function doToArray(): array
     {
+
         return [
             'account_number' => $this->getAccountNumber(),
             'id' => $this->getIdProperty(),
@@ -72,6 +73,7 @@ class UserAccount extends AbstractEntity
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         if ($user->getUserId() !== null) {
             $this->userId = $user->getUserId();
         }

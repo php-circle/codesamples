@@ -5,9 +5,13 @@ namespace App\Database\Entities;
 
 use App\Database\Schema\UserSchema;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @method \Doctrine\Common\Collections\Collection getAccounts()
+ *
  * @ORM\Entity()
  */
 class User extends AbstractEntity
@@ -23,8 +27,21 @@ class User extends AbstractEntity
      *
      * @var \Doctrine\Common\Collections\Collection
      */
-
     protected $accounts;
+
+    /**
+     * User constructor.
+     *
+     * @param null|mixed $data
+     *
+     * @throws \Exception
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->accounts = new ArrayCollection();
+
+        parent::__construct($data);
+    }
 
     /**
      * Get array representation of children.
