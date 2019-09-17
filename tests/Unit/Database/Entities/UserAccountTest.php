@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\App\Unit\Database\Entities;
 
+use App\Database\Entities\User;
 use App\Database\Entities\UserAccount;
 use Tests\App\TestCases\DoctrineAnnotationsTestCase;
 
@@ -43,9 +44,11 @@ final class UserAccountTest extends DoctrineAnnotationsTestCase
      */
     public function testDoGetRules(): void
     {
+
         $this->assertDoGetRules(UserAccount::class, [
             'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:' . \implode( ',', self::SUBSCRIPTION_TYPES )
+            'subscriptionType' => 'required|in:' . \implode( ',', self::SUBSCRIPTION_TYPES ),
+            'user' => 'required|instance_of:App\Database\Entities\User'
         ]);
     }
 
@@ -60,7 +63,9 @@ final class UserAccountTest extends DoctrineAnnotationsTestCase
     {
         $this->assertDoToArray(UserAccount::class, [
             'account_number',
-            'subscription_type'
+            'id',
+            'subscription_type',
+            'user'
         ]);
     }
 

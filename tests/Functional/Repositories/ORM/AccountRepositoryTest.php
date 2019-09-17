@@ -54,7 +54,7 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
     public function testTypeOfSubscriptionFailMethod(): void
     {
         $repository = $this->app->get(AccountRepositoryInterface::class);
-        $result = $repository->findBySubscriptionType('invalidType');
+        $result = $repository->findBySubscriptionType('monthly');
 
         self::assertIsArray( $result );
     }
