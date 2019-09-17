@@ -3,26 +3,85 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\Repositories\ORM;
 
+use App\Database\Entities\User;
 use App\Database\Entities\UserAccount;
-use App\Repositories\Doctrine\AccountRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
+use Exception;
 use Tests\App\TestCases\AbstractDatabaseTestCase;
 
+/**
+ * @covers \App\Database\Entities\UserAccount
+ */
 final class AccountRepositoryTest extends AbstractDatabaseTestCase
 {
     /**
-     * Test entity class.
+     * Test Success on Account Subscription.
      *
      * @return void
      *
-     * @throws \ReflectionException
+     * @throws Exception
      */
-    public function testTypeOfSubscriptionMethod(): void
+    public function testTypeOfSubscriptionSuccessMethod(): void
     {
         $repository = $this->app->get(AccountRepositoryInterface::class);
 
-        $method = $this->getMethodAsPublic(AccountRepository::class, 'findBySubscriptionType');
+        $userAccount = new UserAccount([
+            "accountNumber" => "099-99",
+            "subscriptionType" => UserAccount::SUBSCRIPTION_TYPE_MONTHLY,
+        ]);
 
-        self::assertEquals(UserAccount::class, $method->invoke($repository));
+        $user = new User([
+            "active" => true,
+            "email" => "sample@info.com",
+            "lastName" => "Angelo",
+            "firstName" => "Michael"
+        ]);
+
+        $userAccount->setUser( $user );
+
+        $accounts = $repository->findBySubscriptionType( 'monthly' );
+        self::assertContains($userAccount, $accounts);
     }
+
+    /**
+     * Test Failure on Account Subscription.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function testTypeOfSubscriptionFailMethod(): void
+    {
+        $repository = $this->app->get(AccountRepositoryInterface::class);
+        $result = $repository->findBySubscriptionType('invalidType');
+
+        self::assertIsArray( $result );
+    }
+
+    /**
+     * Test setUser function.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function testSetUser(): void
+    {
+        $userAccount = new UserAccount([
+            "accountNumber" => "099-99",
+            "subscriptionType" => UserAccount::SUBSCRIPTION_TYPE_MONTHLY,
+        ]);
+
+        $user = new User([
+            "active" => true,
+            "email" => "sample@info.com",
+            "lastName" => "Angelo",
+            "firstName" => "Michael"
+        ]);
+
+        $userAccount->setUser( $user );
+
+        self::assertNotEmpty( $userAccount->getUser() );
+    }
+
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Tests\App\TestCases;
 
 use App\Database\Entities\AbstractEntity;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Tools\SchemaTool;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use Tests\App\AbstractTestCase;
@@ -120,15 +122,15 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
     /**
      * Get entity manager instance
      *
-     * @return \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface
+     * @return EntityManager
      */
-    protected function getEntityManager(): EntityManagerInterface
+    protected function getEntityManager(): EntityManager
     {
         if ($this->entityManager !== null) {
             return $this->entityManager;
         }
 
-        return $this->entityManager = $this->app->make(EntityManagerInterface::class);
+        return $this->entityManager = $this->app->make(EntityManager::class);
     }
 
     /**

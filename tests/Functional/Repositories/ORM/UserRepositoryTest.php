@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace Tests\App\Functional\Repositories\ORM;
 
 use App\Database\Entities\User;
+use App\Database\Entities\UserAccount;
 use App\Repositories\Doctrine\UserRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Exception;
+use ReflectionException;
 use Tests\App\TestCases\AbstractDatabaseTestCase;
 
 final class UserRepositoryTest extends AbstractDatabaseTestCase
@@ -15,7 +18,7 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
      *
      * @return void
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testEntityClass(): void
     {
@@ -25,4 +28,5 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
 
         self::assertEquals(User::class, $method->invoke($repository));
     }
+
 }

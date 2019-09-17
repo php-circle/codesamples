@@ -23,6 +23,17 @@ class UserAccount extends AbstractEntity
     ];
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="\App\Database\Entities\User",
+     *     mappedBy="accounts",
+     *     cascade={"persist"}
+     * )
+     *
+     * @var \App\Database\Entities\User
+     */
+    protected $user;
+
+    /**
      * Get entity specific validation rules as an array.
      *
      * @return mixed[]
@@ -31,7 +42,8 @@ class UserAccount extends AbstractEntity
     {
         return [
             'accountNumber' => 'required|string',
-            'subscriptionType' => 'required|in:' . \implode( ',', self::SUBSCRIPTION_TYPES )
+            'subscriptionType' => 'required|in:' . \implode( ',', self::SUBSCRIPTION_TYPES ),
+            'user' => 'required|' . $this->instanceOfRuleAsString( User::class )
         ];
     }
 
@@ -44,8 +56,27 @@ class UserAccount extends AbstractEntity
     {
         return [
             'account_number' => $this->getAccountNumber(),
-            'subscription_type' => $this->getSubscriptionType()
+            'id' => $this->getIdProperty(),
+            'subscription_type' => $this->getSubscriptionType(),
+            'user' => $this->getUser()
         ];
+    }
+
+    /**
+     * Set user association.
+     *
+     * @param User $user
+     *
+     * @return UserAccount
+     */
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        if ($user->getUserId() !== null) {
+            $this->userId = $user->getUserId();
+        }
+
+        return $this;
     }
 
     /**
@@ -57,4 +88,5 @@ class UserAccount extends AbstractEntity
     {
         return 'userAcctId';
     }
+
 }
