@@ -6,7 +6,6 @@ namespace App\Database\Entities;
 use App\Database\Schema\UserSchema;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,9 +18,9 @@ class User extends AbstractEntity
     use UserSchema;
 
     /**
-     * @ORM\ManyToOne(
+     * @ORM\OneToMany(
      *     targetEntity="\App\Database\Entities\UserAccount",
-     *     inversedBy="user",
+     *     mappedBy="user",
      *     cascade={"persist"}
      * )
      *

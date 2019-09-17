@@ -80,7 +80,13 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
             "firstName" => "Michael"
         ]);
 
+        $this->getEntityManager()->persist( $user );
+        $this->getEntityManager()->flush();
+
         $userAccount->setUser( $user );
+
+        $this->getEntityManager()->persist( $userAccount );
+        $this->getEntityManager()->flush();
 
         self::assertNotEmpty( $userAccount->getUser() );
     }
