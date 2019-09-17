@@ -38,7 +38,9 @@ $app->middleware([
     \EoneoPay\ApiFormats\Bridge\Laravel\Middlewares\ApiFormatsMiddleware::class,
 ]);
 
-$app->routeMiddleware([]);
+$app->routeMiddleware([
+    'auth' => \App\Http\Middleware\Authenticate::class
+]);
 
 /*
 |--------------------------------------------------------------------------

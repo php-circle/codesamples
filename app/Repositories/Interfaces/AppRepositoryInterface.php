@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Interfaces;
 
+use EoneoPay\Framework\Exceptions\EntityNotFoundException;
 use LoyaltyCorp\EasyRepository\Interfaces\PaginatedObjectRepositoryInterface;
 
 interface AppRepositoryInterface extends PaginatedObjectRepositoryInterface
@@ -14,7 +15,7 @@ interface AppRepositoryInterface extends PaginatedObjectRepositoryInterface
      *
      * @return object
      *
-     * @throws \EoneoPay\Framework\Exceptions\EntityNotFoundException If entity not found for given identifier
+     * @throws EntityNotFoundException If entity not found for given identifier
      */
     public function findOrFail(string $identifier): object;
 

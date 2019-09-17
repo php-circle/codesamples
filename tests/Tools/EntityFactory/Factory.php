@@ -1,27 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\Tools\EntityFactory;
+namespace App\Tests\Tools\EntityFactory;
 
 use LaravelDoctrine\ORM\Testing\Factory as LaravelDoctrineFactory;
 use LaravelDoctrine\ORM\Testing\FactoryBuilder as DortrineFactoryBuilder;
 
 final class Factory extends LaravelDoctrineFactory
 {
-    /**
-     * Override to use EntityDefinition.
-     *
-     * @param mixed $class
-     * @param callable $attributes
-     * @param mixed $name
-     *
-     * @return void
-     */
-    public function define($class, callable $attributes, $name = 'default'): void
-    {
-        parent::define($class, new EntityDefinition($class, $attributes), $name);
-    }
-
     /**
      * Override the doctrine factory of to use the custom factory builder.
      *

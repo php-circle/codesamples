@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\Tools\Filesystem\Stubs;
+namespace App\Tests\Tools\Filesystem\Stubs;
 
 use DirectoryIterator;
 use FilesystemIterator;
+use finfo;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
@@ -21,7 +22,7 @@ use SplFileInfo;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) Class is a copy of the flysystem default
  * @SuppressWarnings(PHPMD.TooManyPublicMethods) Methods are dictated by the flysystem interface
  */
-class VirtualFilesystemAdapterStub extends AbstractAdapter
+final class VirtualFilesystemAdapterStub extends AbstractAdapter
 {
     /**
      * Default access permissions
@@ -71,7 +72,7 @@ class VirtualFilesystemAdapterStub extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function createDir($dirname, ?Config $config = null)
+    public function createDir($dirname, Config $config)
     {
         $location = $this->applyPathPrefix($dirname);
         $return = $this->ensureDirectory($location) ? ['path' => $dirname, 'type' => 'dir'] : false;
@@ -129,13 +130,17 @@ class VirtualFilesystemAdapterStub extends AbstractAdapter
      */
     public function getMimetype($path)
     {
-        /** @noinspection PhpInternalEntityUsedInspection */
-        // Mimetype mimics Flysystem local driver
-        return [
-            'path' => $path,
-            'type' => 'file',
-            'mimetype' => Util\MimeType::detectByFilename($this->applyPathPrefix($path))
-        ];
+        $location = $this->applyPathPrefix($path);
+        $finfo = new finfo(\FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->file($location);
+
+        if (\in_array($mimetype, ['application/octet-stream', 'inode/x-empty'], true)) {
+            /** @noinspection PhpInternalEntityUsedInspection */
+            // Mimics Flysystem local driver
+            $mimetype = Util\MimeType::detectByFilename($location);
+        }
+
+        return ['path' => $path, 'type' => 'file', 'mimetype' => $mimetype];
     }
 
     /**
@@ -270,7 +275,7 @@ class VirtualFilesystemAdapterStub extends AbstractAdapter
      *
      * @SuppressWarnings(PHPMD.StaticAccess) Flysystem requires Util methods to be statically accessed
      */
-    public function update($path, $contents, ?Config $config = null)
+    public function update($path, $contents, Config $config)
     {
         $location = $this->applyPathPrefix($path);
         $mimetype = Util::guessMimeType($path, $contents);
@@ -357,15 +362,15 @@ class VirtualFilesystemAdapterStub extends AbstractAdapter
     {
         switch ($file->getType()) {
             case 'dir':
-                \rmdir($file->getRealPath() ?: '');
+                \rmdir((string) $file->getRealPath());
                 break;
 
             case 'link':
-                \unlink($file->getPathname());
+                \unlink((string) $file->getPathname());
                 break;
 
             default:
-                \unlink($file->getRealPath() ?: '');
+                \unlink((string) $file->getRealPath());
         }
     }
 

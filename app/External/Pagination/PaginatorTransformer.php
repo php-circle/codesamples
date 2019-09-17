@@ -125,8 +125,6 @@ final class PaginatorTransformer implements PaginatorTransformerInterface
      * Replace the items.
      *
      * @param mixed[] $items
-     *
-     * @return void
      */
     public function setItems(array $items): void
     {

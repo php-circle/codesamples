@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\Tools\TestListeners;
+namespace App\Tests\Tools\TestListeners;
 
 use EoneoPay\Utils\Exceptions\ValidationException;
 use PHPUnit\Framework\ExceptionWrapper;
@@ -9,7 +9,7 @@ use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 
-class ValidationErrorsListener implements TestListener
+final class ValidationErrorsListener implements TestListener
 {
     use TestListenerDefaultImplementation;
 

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\Database\Exceptions;
 
-use EoneoPay\Utils\Exceptions\NotFoundException;
+use EoneoPay\Externals\ORM\Exceptions\EntityValidationFailedException as BaseEntityValidationFailedException;
 
-final class EntityNotFoundException extends NotFoundException
+final class InvalidSubscriptionTypeException extends BaseEntityValidationFailedException
 {
     /**
      * Get Error code.
@@ -14,7 +14,7 @@ final class EntityNotFoundException extends NotFoundException
      */
     public function getErrorCode(): int
     {
-        return self::DEFAULT_ERROR_CODE_NOT_FOUND;
+        return self::DEFAULT_ERROR_CODE_VALIDATION;
     }
 
     /**
