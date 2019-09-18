@@ -25,7 +25,8 @@ class User extends AbstractEntity
             'email' => $this->getEmail(),
             'id' => $this->getUserId(),
             'first_name' => $this->getFirstName(),
-            'last_name' => $this->getLastName()
+            'last_name' => $this->getLastName(),
+            'accounts' => $this->getAccounts()
         ];
     }
 
