@@ -45,6 +45,14 @@ class Account extends AbstractEntity
     public const USER_RULE = 'required';
 
     /**
+     * @ORM\ManyToOne(targetEntity="\App\Database\Schema\User", inversedBy="account")
+     * @ORM\JoinColumn(nullable=false)
+     * 
+     * @var \App\Database\Schema\User
+     */
+    protected $user;
+
+    /**
      * Get entity specific validation rules as an array.
      *
      * @return mixed[]

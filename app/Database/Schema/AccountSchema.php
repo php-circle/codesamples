@@ -40,10 +40,9 @@ trait AccountSchema
     protected $subscriptionType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="account")
-     * @ORM\JoinColumn(nullable=false)
-     * 
-     * @var \App\Database\Schema\User
+     * @ORM\Column(type="string", name="user_id")
+     *
+     * @var string
      */
-    protected $user;
+    protected $userId;
 }

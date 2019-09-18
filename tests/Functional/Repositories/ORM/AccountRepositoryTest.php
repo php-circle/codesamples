@@ -5,6 +5,7 @@ namespace Tests\App\Functional\Repositories\ORM;
 
 use App\Repositories\Doctrine\AccountRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
+use App\Database\Exceptions\InvalidTypeSubscriptionException;
 use Tests\App\Tools\TestCases\AbstractDatabaseTestCase;
 
 /**
@@ -19,8 +20,8 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
      */
     public function testFindBySubscriptionTypeNotLifetime(): void
     {
+        $this->expectException(InvalidTypeSubscriptionException::class);
         $repository = $this->app->get(AccountRepositoryInterface::class);
-        $method = $this->getMethodAsPublic(AccountRepository::class, 'findBySubscriptionType');
-        self::assertEquals($method->invoke($repository, 'annually'), ['error' => 1100]);
+        $repository->findBySubscriptionType('quarterly');
     }
 }

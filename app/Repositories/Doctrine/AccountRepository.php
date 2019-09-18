@@ -19,15 +19,11 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
      */
     public function findBySubscriptionType(string $subscriptionType): array
     {
-        try {
-            if (!\in_array($subscriptionType, Account::SUBSCRIPTION_TYPES, true)) {
-                throw new InvalidTypeSubscriptionException();
-            }
-
-            return $this->repository->findBy(['subscriptionType' => $subscriptionType]);
-        } catch (InvalidTypeSubscriptionException $ex) {
-            return ['error' => $ex->getErrorCode()];
+        if (!\in_array($subscriptionType, Account::SUBSCRIPTION_TYPES, true)) {
+            throw new InvalidTypeSubscriptionException();
         }
+
+        return $this->repository->findBy(['subscriptionType' => $subscriptionType]);
     }
 
     /**
