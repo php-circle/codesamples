@@ -6,6 +6,7 @@ namespace Tests\App\Tools\TestCases;
 use App\Database\Entities\AbstractEntity;
 use App\Database\Entities\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\SchemaTool;
 use EoneoPay\Externals\Bridge\Laravel\EventDispatcher;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use LoyaltyCorp\EasyRepository\Interfaces\ObjectRepositoryInterface;
@@ -62,10 +63,16 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
      * Create database using doctrine command.
      *
      * @return void
+     *
+     * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function setUp(): void
     {
         parent::setUp();
+
+        $schemaTool = new SchemaTool($this->getEntityManager());
+
+        $schemaTool->createSchema($this->getEntityManager()->getMetadataFactory()->getAllMetadata());
     }
 
     /**

@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\External\Interfaces\AuthInterface;
-use App\External\Libraries\Auth;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
-use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
@@ -48,14 +45,5 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->extend(AuthFactory::class, function ($auth) {
-            if ($auth instanceof AuthInterface) {
-                return $auth;
-            }
-
-            return new Auth($auth);
-        });
-
-        $this->app->alias('auth', AuthInterface::class);
     }
 }

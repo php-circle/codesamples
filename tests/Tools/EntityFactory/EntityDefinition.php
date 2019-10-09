@@ -42,6 +42,7 @@ final class EntityDefinition
         $definition = \call_user_func($this->closure, $faker, $attributes);
 
 
+        /** @var \EoneoPay\Externals\ORM\Interfaces\EntityInterface $definition */
         if ($definition instanceof \EoneoPay\Externals\ORM\Interfaces\EntityInterface) {
             $definition->fill($attributes ?? []);
 

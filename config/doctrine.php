@@ -73,7 +73,6 @@ return [
     |
     */
     'extensions' => [
-        App\External\Libraries\Doctrine\Extensions\LoggableExtension::class,
         SoftDeleteableExtension::class,
         // EoneoPay\Externals\ORM\Extensions\SoftDeleteExtension::class,
         LaravelDoctrine\Extensions\Timestamps\TimestampableExtension::class
