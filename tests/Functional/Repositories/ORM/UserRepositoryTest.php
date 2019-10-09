@@ -34,6 +34,6 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
      */
     public function testFindByFirstName(): void
     {
-
+    
     }
 }

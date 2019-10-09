@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @method null|string getAccountNumber()
  * @method null|string getSubscriptionType()
+ * @method null|string getAccountId()
  * @method self setAccountNumber(string $accountNumber)
  * @method self setSubscriptionType(string $subscriptionType)
  */

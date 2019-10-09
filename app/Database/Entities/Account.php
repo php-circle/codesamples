@@ -40,22 +40,12 @@ class Account extends AbstractEntity
     }
     
     /**
-     * Get id of this entity
-     *
-     * @return int|string|null
-     */
-    public function getId()
-    {
-        return $this->getAccountNumber();
-    }
-    
-    /**
      * Get id property of this entity
      *
      * @return string
      */
     protected function getIdProperty(): string
     {
-        return 'accountNumber';
+        return 'accountId';
     }
 }
