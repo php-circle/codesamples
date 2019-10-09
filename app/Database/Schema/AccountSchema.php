@@ -27,4 +27,13 @@ trait AccountSchema
      * @var string
      */
     protected $subscriptionType;
+    
+    /**
+     * @ORM\Column(type="guid", name="id")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Id()
+     *
+     * @var string
+     */
+    protected $accountId;
 }
