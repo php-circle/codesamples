@@ -48,7 +48,7 @@ class AccountTest extends DoctrineAnnotationsTestCase
      */
     public function testAssertIdProperty(): void
     {
-        $this->assertIdProperty(Account::class, 'accountNumber');
+        $this->assertIdProperty(Account::class, 'accountId');
     }
     
 }
