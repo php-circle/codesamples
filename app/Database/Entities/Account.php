@@ -21,8 +21,8 @@ class Account extends AbstractEntity
     protected function doGetRules(): array
     {
         return [
-            'account_number' => 'required|string',
-            'subscription_type' => 'required|in:monthly,lifetime'
+            'accountNumber' => 'required|string',
+            'subscriptionType' => 'required|in:monthly,lifetime'
         ];
     }
     
@@ -47,15 +47,5 @@ class Account extends AbstractEntity
     protected function getIdProperty(): string
     {
         return 'accountId';
-    }
-    
-    /**
-     * Get subscription types
-     *
-     * @return array
-     */
-    public function doGetTypes() : array
-    {
-        return ['monthly', 'lifetime'];
     }
 }

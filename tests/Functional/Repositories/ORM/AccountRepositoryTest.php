@@ -24,29 +24,31 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
         $repository = $this->app->get(AccountRepositoryInterface::class);
         $method = $this->getMethodAsPublic(AccountRepository::class, 'getEntityClass');
         
-        self::assertEmpty(Account::class, $method->invoke($repository));
+        self::assertEquals(Account::class, $method->invoke($repository));
     }
     
     /**
      * Test find by subscription type
-     * 
+     *
      * @throws \Exception
      */
     public function testFindBySubscriptionType(): void
     {
         $account = new Account([
-            'account_number' => $this->getFaker()->randomNumber(7),
-            'subscription_type' => 'monthly'
+            'accountNumber' => strval($this->getFaker()->randomNumber(7)),
+            'subscriptionType' => 'monthly'
         ]);
         
         $this->getEntityManager()->persist($account);
         $this->getEntityManager()->flush();
-        
+    
         $repository = $this->app->get(AccountRepositoryInterface::class);
+        
         $result = $repository->findBySubscriptionType('monthly');
         
         self::assertCount(1, $result);
         self::assertContains($account, $result);
+    
     }
     
 }

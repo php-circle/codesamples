@@ -19,8 +19,8 @@ class AccountTest extends DoctrineAnnotationsTestCase
     public function testDoGetRules(): void
     {
         $this->assertDoGetRules(Account::class, [
-            'account_number' => 'required|string',
-            'subscription_type' => 'required|in:monthly,lifetime'
+            'accountNumber' => 'required|string',
+            'subscriptionType' => 'required|in:monthly,lifetime'
         ]);
     }
     
