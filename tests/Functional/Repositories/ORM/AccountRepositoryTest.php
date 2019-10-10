@@ -38,7 +38,7 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
     public function testFindBySubscriptionType(): void
     {
         $account = new Account([
-            'accountNumber' => strval($this->getFaker()->randomNumber(7)),
+            'accountNumber' => \strval($this->getFaker()->randomNumber(7)),
             'subscriptionType' => 'monthly'
         ]);
         
@@ -52,5 +52,4 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
         self::assertCount(1, $result);
         self::assertContains($account, $result);
     }
-    
 }

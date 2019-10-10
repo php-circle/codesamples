@@ -50,5 +50,4 @@ class AccountTest extends DoctrineAnnotationsTestCase
     {
         $this->assertIdProperty(Account::class, 'accountId');
     }
-    
 }

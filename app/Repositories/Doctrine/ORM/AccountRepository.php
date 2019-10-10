@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repositories\Doctrine\ORM;
 
-
 use App\Database\Entities\Account;
 use App\Exceptions\InvalidSubscriptionTypeException;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
-use Exception;
 
 final class AccountRepository extends AbstractRepository implements AccountRepositoryInterface
 {
     /**
      * Allowed subscription types
      *
-     * @var array
+     * @var mixed[]
      */
-    static $subscriptionTypes = ['monthly', 'lifetime'];
+    public static $subscriptionTypes = ['monthly', 'lifetime'];
     
     /**
      * Find by subscription type
@@ -26,11 +24,11 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
      *
      * @return mixed[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function findBySubscriptionType(string $subscriptionType): array
     {
-        if (in_array(strtolower($subscriptionType), self::$subscriptionTypes) === false) {
+        if (\in_array(\strtolower($subscriptionType), self::$subscriptionTypes) === false) {
             throw new InvalidSubscriptionTypeException('Invalid subscription type.', 0);
         }
         return $this->repository->findby(['subscriptionType' => $subscriptionType]);
