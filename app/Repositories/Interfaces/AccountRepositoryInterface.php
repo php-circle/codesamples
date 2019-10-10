@@ -10,7 +10,8 @@ interface AccountRepositoryInterface extends AppRepositoryInterface
      * Find by subscription type.
      *
      * @param string $subscriptionType
-     * @return array
+     *
+     * @return mixed[]
      */
     public function findBySubscriptionType(string $subscriptionType): array;
 }

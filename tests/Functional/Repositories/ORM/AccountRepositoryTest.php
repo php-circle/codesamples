@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\Repositories\ORM;
 
-
 use App\Database\Entities\Account;
 use App\Repositories\Doctrine\ORM\AccountRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
@@ -17,6 +16,8 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
     /**
      * Test Entity Class
      *
+     * @return void
+     *
      * @throws \ReflectionException
      */
     public function testEntityClass(): void
@@ -29,6 +30,8 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
     
     /**
      * Test find by subscription type
+     *
+     * @return void
      *
      * @throws \Exception
      */
@@ -48,7 +51,6 @@ final class AccountRepositoryTest extends AbstractDatabaseTestCase
         
         self::assertCount(1, $result);
         self::assertContains($account, $result);
-    
     }
     
 }

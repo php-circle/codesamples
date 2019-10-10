@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Database\Entities;
@@ -16,7 +17,7 @@ class Account extends AbstractEntity
     /**
      * Get entity specific validation rules as an array.
      *
-     * @return array
+     * @return mixed[]
      */
     protected function doGetRules(): array
     {
@@ -29,7 +30,7 @@ class Account extends AbstractEntity
     /**
      * Get array representation of children.
      *
-     * @return array
+     * @return mixed[]
      */
     protected function doToArray(): array
     {

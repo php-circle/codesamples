@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Repositories\Doctrine\ORM;
@@ -13,6 +14,7 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
 {
     /**
      * Allowed subscription types
+     *
      * @var array
      */
     static $subscriptionTypes = ['monthly', 'lifetime'];
@@ -22,14 +24,14 @@ final class AccountRepository extends AbstractRepository implements AccountRepos
      *
      * @param string $subscriptionType
      *
-     * @return array
+     * @return mixed[]
      *
      * @throws Exception
      */
     public function findBySubscriptionType(string $subscriptionType): array
     {
-        if (!in_array(strtolower($subscriptionType), self::$subscriptionTypes)) {
-            throw new InvalidSubscriptionTypeException();
+        if (in_array(strtolower($subscriptionType), self::$subscriptionTypes) === false) {
+            throw new InvalidSubscriptionTypeException('Invalid subscription type.', 0);
         }
         return $this->repository->findby(['subscriptionType' => $subscriptionType]);
     }
