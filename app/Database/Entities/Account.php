@@ -48,4 +48,14 @@ class Account extends AbstractEntity
     {
         return 'accountId';
     }
+    
+    /**
+     * Get subscription types
+     *
+     * @return array
+     */
+    public function doGetTypes() : array
+    {
+        return ['monthly', 'lifetime'];
+    }
 }
