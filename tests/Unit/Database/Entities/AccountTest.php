@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-
 namespace Tests\App\Unit\Database\Entities;
 
 use App\Database\Entities\Account;
 use Tests\App\Tools\TestCases\DoctrineAnnotationsTestCase;
 
-class AccountTest extends DoctrineAnnotationsTestCase
+final class AccountTest extends DoctrineAnnotationsTestCase
 {
     /**
      * Test entity do get rules.

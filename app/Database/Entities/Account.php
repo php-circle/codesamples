@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Database\Entities;
 
 use App\Database\Schema\AccountSchema;

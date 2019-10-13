@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Repositories\Doctrine\ORM;
 
 use App\Database\Entities\Account;

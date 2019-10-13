@@ -1,24 +1,22 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Exceptions;
 
 use RuntimeException;
 use Throwable;
 
-class InvalidSubscriptionTypeException extends RuntimeException
+final class InvalidSubscriptionTypeException extends RuntimeException
 {
     /**
      * InvalidSubscriptionTypeException constructor.
      *
-     * @param string $message
      * @param int $code
+     * @param string $message
      * @param \Throwable|null $previous
      */
-    public function __construct(String $message, Int $code, ?Throwable $previous = null)
+    public function __construct(String $message, Int $code = 0, ?Throwable $previous = null)
     {
-        $code = 0;
         parent::__construct($message, $code, $previous);
     }
     
