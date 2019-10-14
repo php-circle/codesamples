@@ -23,7 +23,6 @@ final class UserRepositoryTest extends AbstractDatabaseTestCase
     public function testEntityClass(): void
     {
         $repository = $this->app->get(UserRepositoryInterface::class);
-
         $method = $this->getMethodAsPublic(UserRepository::class, 'getEntityClass');
 
         self::assertEquals(User::class, $method->invoke($repository));

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use App\Repositories\Doctrine\ORM\UserRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Doctrine\ORM\AccountRepository;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
 
 return [
     /*
@@ -22,6 +24,7 @@ return [
     |
     */
     'repositories' => [
-        UserRepositoryInterface::class => UserRepository::class
+        UserRepositoryInterface::class => UserRepository::class,
+        AccountRepositoryInterface::class => AccountRepository::class
     ]
 ];
