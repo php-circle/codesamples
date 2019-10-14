@@ -15,7 +15,7 @@ final class InvalidSubscriptionTypeException extends RuntimeException
      * @param string $message
      * @param \Throwable|null $previous
      */
-    public function __construct(String $message, Int $code = 0, ?Throwable $previous = null)
+    public function __construct(string $message, int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
